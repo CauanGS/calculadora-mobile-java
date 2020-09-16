@@ -1,0 +1,7 @@
+configurations.maybeCreate("default")
+
+dependencies {
+    apply plugin: 'java'
+    implementation 'net.objecthunter:exp4j:0.4.8'
+}
+artifacts.add("default", file('exp4j-0.4.8.jar'))
