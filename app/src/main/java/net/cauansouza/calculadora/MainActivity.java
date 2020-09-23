@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+// A biblioteca exp4j, é a responsável por interpretar uma string como uma expressão e retornar o resultado dos calculos
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Números
+    // Definindo botões numéricos
 
     public void onClick_zero(View view) {
         AcrescentarUmaExpressao("0",true);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         AcrescentarUmaExpressao("9",true);
     }
 
-    // Operadores
+    // Definindo botões operadores
 
     public void onClick_multiplicacao(View view) {AcrescentarUmaExpressao("x",false); }
     public void onClick_divisao(View view) {
@@ -69,11 +70,12 @@ public class MainActivity extends AppCompatActivity {
     public void onClick_adicao(View view) {AcrescentarUmaExpressao("+",false); }
     public void onClick_subtracao(View view) {AcrescentarUmaExpressao("-",false); }
 
-    // Outros
+    // Definindo outros botões
 
     public void onClick_limpar(View view) {
         TextView resultado = findViewById(R.id.resultado);
         TextView expressao = findViewById(R.id.expressao);
+        // Quando pressionado, o botão limpa o texto dos TextViews resultado e expresssao
         resultado.setText("");
         expressao.setText("");
     }
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick_del(View view) {
         TextView expressao = findViewById(R.id.expressao);
         String string = expressao.getText().toString();
+        // Se a string não for vazia, irá pegar o comprimento da string e remover 1 caractere
         if (string.length() > 0) {
             string = string.substring(0, string.length() - 1);
             expressao.setText(string);
@@ -91,19 +94,25 @@ public class MainActivity extends AppCompatActivity {
     public void onClick_igual(View view) {
         TextView resultado = findViewById(R.id.resultado);
         TextView expressao = findViewById(R.id.expressao);
+        // stringexp recebe o conteúdo de expressao convertido para string e substitui vírgulas por pontos
         String stringexp = expressao.getText().toString().replace(",",".");
+        // stringexp recebe o conteúdo dele mesmo substituindo a letra "X" por asterisco (*)
         stringexp = stringexp.replace("x","*");
         try {
+            // Instanciando um objeto Expression através da ferramenta exp4j
             Expression valor = new ExpressionBuilder(stringexp).build();
             Double resultadoexpr = (valor).evaluate();
+            // Caso o valor seja um inteiro ele será convertido para o formato int
             if (resultadoexpr == Math.rint(resultadoexpr)) {
                 int dx2 = (resultadoexpr).intValue();
                 resultado.setText(Integer.toString(dx2));
             } else {
                 int length = resultadoexpr.toString().length() - 1;
                 System.out.println(resultadoexpr.toString()+"------"+length);
+                // Caso o valor tenha mais de 8 algarismos ele será convertido para um formato que limite o tamanho de decimais
                 if (length > 8) {
                     DecimalFormat fDecimais = new DecimalFormat("0.00000000");
+                    // Substituindo pontos por vírgulas para exibição
                     String rdecimal = fDecimais.format(resultadoexpr).replace(".",",");
                     resultado.setText(rdecimal);
                 }else {
@@ -112,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } catch (Exception e){
-            System.out.println("Erro ao realizar o calculo: "+e);
             expressao.setText("");
             resultado.setText("Expressão inválida");
         }
@@ -120,17 +128,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick_ponto(View view) {AcrescentarUmaExpressao(",",true);}
 
+    // Método para acrescentar caracteres a expressão
     public void AcrescentarUmaExpressao(String string, boolean limpar_dados){
         TextView resultado = findViewById(R.id.resultado);
         TextView expressao = findViewById(R.id.expressao);
 
-        if(resultado.length() != 0){ // Testando se "resultado" é vazio
+        // Se o resultado for vazio, o texto da expressão será limpo
+        if(resultado.length() != 0){
             expressao.setText("");
         }
-        if((limpar_dados) && (expressao.getText() != "Erro")){ // Testando se é necessário limpar os dados
+
+        // Se a variável limpar_dados for verdadeira e a expressao não conter a mensagem de "Erro", o texto do resultado
+        // será limpo e a expressão receberá o caractere contido na string
+        if((limpar_dados) && (expressao.getText() != "Erro")){
             resultado.setText("");
             expressao.append(string);
         } else {
+            // Se não, a expressao receberá o conteúdo do resultado e o caractere contido na string
+            // Em seguida, o resultado será limpado
             expressao.append(resultado.getText());
             expressao.append(string);
             resultado.setText("");
