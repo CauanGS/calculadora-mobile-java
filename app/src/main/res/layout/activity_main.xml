@@ -45,10 +45,10 @@
             android:text="C" />
 
         <TextView
-            android:onClick="onClick_del"
-            android:clickable="true"
             android:id="@+id/delete"
             style="@style/Operators_Button"
+            android:clickable="true"
+            android:onClick="onClick_del"
             android:text="DEL" />
 
     </LinearLayout>

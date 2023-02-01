@@ -105,7 +105,12 @@ public class MainActivity extends AppCompatActivity {
             // Caso o valor seja um inteiro ele será convertido para o formato int
             if (resultadoexpr == Math.rint(resultadoexpr)) {
                 int dx2 = (resultadoexpr).intValue();
-                resultado.setText(Integer.toString(dx2));
+                if (dx2<2147483647){
+                    resultado.setText(Integer.toString(dx2));
+                } else {
+                    expressao.setText("");
+                    resultado.setText("VALOR EXCEDENTE");
+                }
             } else {
                 int length = resultadoexpr.toString().length() - 1;
                 System.out.println(resultadoexpr.toString()+"------"+length);
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e){
             expressao.setText("");
-            resultado.setText("Expressão inválida");
+            resultado.setText("EXPRESSÃO INVÁLIDA");
         }
     }
 
