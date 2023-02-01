@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             // Caso o valor seja um inteiro ele será convertido para o formato int
             if (resultadoexpr == Math.rint(resultadoexpr)) {
                 int dx2 = (resultadoexpr).intValue();
+                // Caso o valor exceda o limite suportado por uma varíavel int
                 if (dx2<2147483647){
                     resultado.setText(Integer.toString(dx2));
                 } else {
